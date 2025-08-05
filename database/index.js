@@ -9,6 +9,7 @@ const CommentLike = require("./comment_likes.js")
 const Follow = require("./follows.js")
 const PostShare = require("./post_shares.js")
 const Playlist = require("./playlists")
+const PlaylistItem = require("./playlist_items.js")
 
 module.exports = {
   db,
