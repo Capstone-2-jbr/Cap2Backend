@@ -6,6 +6,8 @@ const PostMedia = require("./post_media.js")
 const Comment = require("./comments.js")
 const PostLike = require("./post_likes.js")
 const CommentLike = require("./comment_likes.js")
+const Follow = require("./follows.js")
+const PostShare = require("./post_shares.js")
 
 module.exports = {
   db,
@@ -16,4 +18,7 @@ module.exports = {
   Comment,
   PostLike,
   CommentLike,
+  Follow,
+  PostShare,
+
 };
