@@ -3,6 +3,7 @@ const db = require("./db");
 const bcrypt = require("bcrypt");
 
 const User = db.define("user", {
+  user_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   username: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -28,6 +29,9 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  profile_picture: { type: DataTypes.STRING(500) },
+  dob: { type: DataTypes.DATEONLY },
+  bio: { type: DataTypes.TEXT },
 });
 
 // Instance method to check password
