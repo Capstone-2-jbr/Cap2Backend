@@ -32,8 +32,6 @@ const User = db.define("user", {
   profile_picture: { type: DataTypes.STRING(500) },
   dob: { type: DataTypes.DATEONLY },
   bio: { type: DataTypes.TEXT },
-  created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-  updated_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
 });
 
 // Instance method to check password
