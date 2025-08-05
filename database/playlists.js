@@ -9,7 +9,7 @@ const Playlist = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    user_id: { type: DataTypes.INTEGER, allowNull: false },
+    creator_id: { type: DataTypes.INTEGER, allowNull: false },
     name: { type: DataTypes.STRING(120), allowNull: false },
     description: { type: DataTypes.TEXT },
     is_public: { type: DataTypes.BOOLEAN, defaultValue: true },
@@ -17,7 +17,7 @@ const Playlist = db.define(
   {
     tableName: "playlists",
     timestamps: true,
-    indexes: [{ fields: ["user_id", "name"] }],
+    indexes: [{ fields: ["creator_id", "name"] }],
   }
 );
 

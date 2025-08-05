@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const testDbRouter = require("./test-db");
-const youtubeRoutes = require("./youtube");  // <-- Import youtube router
+const youtubeRouter = require("./youtube");  // <-- Import youtube router
+const playlistRouter = require("./playlist");
 
-router.use("/video-details", youtubeRoutes);
+router.use("/video-details", youtubeRouter);
 router.use("/test-db", testDbRouter);
+router.use("/playlist", playlistRouter);
 
 module.exports = router;
