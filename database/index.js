@@ -18,6 +18,8 @@ const CartItem = require("./cart_items.js")
 const Order = require("./orders.js")
 const OrderItem = require("./order_items.js")
 const Review = require("./reviews.js")
+const Conversation = require("./conversations.js")
+const ConversationMember = require("./conversation_members.js")
 
 module.exports = {
   db,
@@ -39,5 +41,8 @@ module.exports = {
   CartItem,
   Order,
   OrderItem,
-
+  Review,
+  Conversation,
+  ConversationMember,
+  
 };
