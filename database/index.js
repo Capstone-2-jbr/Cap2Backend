@@ -11,6 +11,7 @@ const PostShare = require("./post_shares.js")
 const Playlist = require("./playlists.js")
 const PlaylistItem = require("./playlist_items.js")
 const PlaylistSave = require("./playlist_saves.js")
+const Listing = require("./listings.js")
 
 module.exports = {
   db,
@@ -26,4 +27,5 @@ module.exports = {
   Playlist,
   PlaylistItem,
   PlaylistSave,
+  Listing,
 };
