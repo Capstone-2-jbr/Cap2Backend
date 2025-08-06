@@ -9,7 +9,7 @@ const Playlist = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    creator_id: { type: DataTypes.INTEGER, allowNull: false },
+    user_id: { type: DataTypes.INTEGER, allowNull: false },
     name: { type: DataTypes.STRING(120), allowNull: false },
     description: { type: DataTypes.TEXT },
     is_public: { type: DataTypes.BOOLEAN, defaultValue: true },

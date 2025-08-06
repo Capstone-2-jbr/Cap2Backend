@@ -1,7 +1,6 @@
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
-const { authenticateJWT, requireAuth, requireAdmin } = require("../auth");
 const { User } = require("../database");
 
 router.get("/", async (_req, res) => {
