@@ -29,75 +29,64 @@ const seed = async () => {
   try {
     await db.sync({ force: true });
 
-    const users = await User.bulkCreate(
-      [
-        {
-          email: "admin@example.com",
-          username: "admin",
-          password_hash: bcrypt.hashSync("admin123", 10),
-          oauth_provider: null,
-          oauth_sub: null,
-        },
-        {
-          email: "user1@example.com",
-          username: "user1",
-          password_hash: bcrypt.hashSync("user111", 10),
-          oauth_provider: null,
-          oauth_sub: null,
-        },
-        {
-          email: "user2@example.com",
-          username: "user2",
-          password_hash: bcrypt.hashSync("user222", 10),
-          oauth_provider: null,
-          oauth_sub: null,
-        },
-      ],
-      { returning: true }
-    );
+    const users = await User.bulkCreate([
+      {
+        email: "admin@example.com",
+        username: "admin",
+        passwordHash: bcrypt.hashSync("admin123", 10),
+        auth0Id: null,
+      },
+      {
+        email: "user1@example.com",
+        username: "user1",
+        passwordHash: bcrypt.hashSync("user111", 10),
+        auth0Id: null,
+      },
+      {
+        email: "user2@example.com",
+        username: "user2",
+        passwordHash: bcrypt.hashSync("user222", 10),
+        auth0Id: null,
+      },
+    ]);
 
     const [u1, u2, u3] = users;
 
-    const settings = await UserSetting.bulkCreate(
-      [
-        {
-          user_id: u1.user_id,
-          theme: "bright",
-          autoplay_music: true,
-          notifications: true,
-        },
-        {
-          user_id: u2.user_id,
-          theme: "dark",
-          autoplay_music: false,
-          notifications: true,
-        },
-        {
-          user_id: u3.user_id,
-          theme: "bright",
-          autoplay_music: true,
-          notifications: false,
-        },
-      ],
-      { returning: true }
-    );
+    const settings = await UserSetting.bulkCreate([
+      {
+        user_id: u1.user_id,
 
-    const posts = await Post.bulkCreate(
-      [
-        { user_id: u1.user_id, content: "Hello world", visibility: "public" },
-        {
-          user_id: u2.user_id,
-          content: "Second post",
-          visibility: "followers",
-        },
-        {
-          user_id: u3.user_id,
-          content: "Private thoughts",
-          visibility: "private",
-        },
-      ],
-      { returning: true }
-    );
+        theme: "bright",
+        autoplay_music: true,
+        notifications: true,
+      },
+      {
+        user_id: u2.user_id,
+        theme: "dark",
+        autoplay_music: false,
+        notifications: true,
+      },
+      {
+        user_id: u3.user_id,
+        theme: "bright",
+        autoplay_music: true,
+        notifications: false,
+      },
+    ]);
+
+    const posts = await Post.bulkCreate([
+      { user_id: u1.user_id, content: "Hello world", visibility: "public" },
+      {
+        user_id: u2.user_id,
+        content: "Second post",
+        visibility: "followers",
+      },
+      {
+        user_id: u3.user_id,
+        content: "Private thoughts",
+        visibility: "private",
+      },
+    ]);
 
     const [p1, p2, p3] = posts;
 
@@ -105,20 +94,17 @@ const seed = async () => {
       [
         {
           post_id: p1.post_id,
-          url: "https://example.com/p1-1.jpg",
-          type: "image",
+          url: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXVzaWN8ZW58MHx8MHx8fDA%3D",
           position: 1,
         },
         {
           post_id: p2.post_id,
-          url: "https://example.com/p2-1.jpg",
-          type: "image",
+          url: "https://media.istockphoto.com/id/496202746/photo/real-woman-dj-playing-music-at-party.jpg?s=612x612&w=0&k=20&c=4VCu3JapJRYDJnt8fQdlPIMg1j4V0GfLASIR2PIsB_A=",
           position: 1,
         },
         {
           post_id: p3.post_id,
-          url: "https://example.com/p3-1.mp4",
-          type: "video",
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzN1DyOOOejOH5isjfUXp3Ad9XQ186ezuh01wqaJyjJXLD_RF1LsnqgJ8OfaNXOaIc_Sk&usqp=CAU",
           position: 1,
         },
       ],

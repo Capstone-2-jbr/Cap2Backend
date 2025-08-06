@@ -11,6 +11,13 @@ const Follow = db.define(
     tableName: "follows",
     timestamps: false,
     indexes: [{ fields: ["followee_id"] }],
+    validate: {
+      notSelfFollow() {
+        if (this.follower_id === this.following_id) {
+          throw new Error("Users cannot follow themselves");
+        }
+      },
+    },
   }
 );
 

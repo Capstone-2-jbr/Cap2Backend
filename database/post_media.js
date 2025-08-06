@@ -11,7 +11,6 @@ const PostMedia = db.define(
     },
     post_id: { type: DataTypes.INTEGER, allowNull: false },
     url: { type: DataTypes.STRING(500), allowNull: false },
-    type: { type: DataTypes.STRING, allowNull: false },
     position: { type: DataTypes.INTEGER, defaultValue: 1 },
   },
   { tableName: "post_media", timestamps: false }
