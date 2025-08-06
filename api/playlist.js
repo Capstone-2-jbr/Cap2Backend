@@ -16,7 +16,9 @@ router.get("/", async (_req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const playlist = await Playlist.findByPk(req.params.id,);
+    const playlist = await Playlist.findByPk(req.params.id, {
+      include: [{ model: PlaylistItem, as: "items" }],
+    });
 
     if (!playlist) {
       return res.status(404).json({ error: "Playlist not found" });

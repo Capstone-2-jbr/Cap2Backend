@@ -37,7 +37,7 @@ const User = db.define("user", {
   },
   dob: { type: DataTypes.DATEONLY },
   bio: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(1000),
     allowNull: true,
     defaultvalue: "Veni, vidi, vici",
   },
