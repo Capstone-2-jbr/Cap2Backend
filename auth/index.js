@@ -23,6 +23,21 @@ const authenticateJWT = (req, res, next) => {
   });
 };
 
+// Middleware that requires authentication
+const requireAuth = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Authentication required" });
+  }
+  next();
+};
+
+const requireAdmin = (req, res, next) => {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).send({ error: "Admin privileges required" });
+  }
+  next();
+};
+
 // Auth0 authentication route
 router.post("/auth0", async (req, res) => {
   try {
@@ -230,4 +245,4 @@ router.get("/me", (req, res) => {
   });
 });
 
-module.exports = { router, authenticateJWT };
+module.exports = { router, authenticateJWT, requireAuth, requireAdmin};

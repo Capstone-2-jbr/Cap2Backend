@@ -17,8 +17,7 @@ const Playlist = db.define(
   {
     tableName: "playlists",
     timestamps: true,
-    indexes: [{ fields: ["user_id", "name"] }],
-  }
+  },
 );
 
 module.exports = Playlist;

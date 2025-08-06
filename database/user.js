@@ -29,9 +29,18 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  profile_picture: { type: DataTypes.STRING(500) },
+  profile_picture: {
+    type: DataTypes.STRING(500),
+    allowNull: true,
+    defaultValue:
+      "https://png.pngtree.com/png-vector/20241012/ourmid/pngtree-cat-peeking-from-frame-png-image_14067902.png",
+  },
   dob: { type: DataTypes.DATEONLY },
-  bio: { type: DataTypes.TEXT },
+  bio: {
+    type: DataTypes.STRING(1000),
+    allowNull: true,
+    defaultvalue: "Veni, vidi, vici",
+  },
 });
 
 // Instance method to check password
