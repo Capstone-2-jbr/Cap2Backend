@@ -17,6 +17,7 @@ const Cart = require("./carts.js")
 const CartItem = require("./cart_items.js")
 const Order = require("./orders.js")
 const OrderItem = require("./order_items.js")
+const Review = require("./reviews.js")
 
 module.exports = {
   db,
