@@ -16,9 +16,7 @@ router.get("/", async (_req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const playlist = await Playlist.findByPk(req.params.id, {
-      include: [PlaylistItem],
-    });
+    const playlist = await Playlist.findByPk(req.params.id,);
 
     if (!playlist) {
       return res.status(404).json({ error: "Playlist not found" });
@@ -45,6 +43,5 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete the playlist" });
   }
 });
-
 
 module.exports = router;
