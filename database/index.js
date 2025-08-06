@@ -13,6 +13,7 @@ const PlaylistItem = require("./playlist_items.js")
 const PlaylistSave = require("./playlist_saves.js")
 const Listing = require("./listings.js")
 const ListingMedia = require("./listing_media.js")
+const Cart = require("./carts.js")
 
 module.exports = {
   db,
@@ -30,4 +31,5 @@ module.exports = {
   PlaylistSave,
   Listing,
   ListingMedia,
+  Cart,
 };
