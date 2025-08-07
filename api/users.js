@@ -1,11 +1,26 @@
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
-const { User, UserSetting } = require("../database");
+const { User, UserSetting, Playlist, PlaylistItem, Listing, ListingMedia } = require("../database");
 
 router.get("/", async (_req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: { exclude: ["password_hash"] },
+      include: [
+        { model: UserSetting, as: "settings" },
+        {
+          model: Playlist,
+          as: "playlists",
+          include: [{ model: PlaylistItem, as: "items" }],
+        },
+        {
+          model: Listing,
+          as: "listings",
+          include: [{ model: ListingMedia, as: "media" }],
+        },
+      ],
+    });
     res.json(users);
   } catch (error) {
     console.error("Error fetching Users: ", error);
@@ -18,10 +33,18 @@ module.exports = router;
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id, {
+      attributes: { exclude: ["password_hash"] },
       include: [
+        { model: UserSetting, as: "settings" },
         {
-          model: UserSetting,
-          as: "settings",
+          model: Playlist,
+          as: "playlists",
+          include: [{ model: PlaylistItem, as: "items" }],
+        },
+        {
+          model: Listing,
+          as: "listings",
+          include: [{ model: ListingMedia, as: "media" }],
         },
       ],
     });
