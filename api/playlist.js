@@ -33,6 +33,44 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res, next) => {
+  try {
+    const { items, ...pl } = req.body;
+    const created = await Playlist.create(
+      { ...pl, items },
+      { include: [{ model: PlaylistItem, as: "items" }] }
+    );
+    res.status(201).json(created);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.patch("/:id", async (req, res, next) => {
+  try {
+    const playlist = await Playlist.findByPk(req.params.id, {
+      include: [{ model: PlaylistItem, as: "items" }],
+    });
+    if (!playlist) return res.sendStatus(404);
+    const { items, ...rest } = req.body;
+    await playlist.update(rest);
+    if (items) {
+      await PlaylistItem.destroy({
+        where: { playlist_id: playlist.playlist_id },
+      });
+      await PlaylistItem.bulkCreate(
+        items.map((it) => ({ ...it, playlist_id: playlist.playlist_id }))
+      );
+    }
+    const fresh = await Playlist.findByPk(req.params.id, {
+      include: [{ model: PlaylistItem, as: "items" }],
+    });
+    res.json(fresh);
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   try {
     const playlist = await Playlist.findByPk(req.params.id);
