@@ -79,6 +79,7 @@ router.patch("/:id", async (req, res, next) => {
     if (settings)
       if (user.settings) await user.settings.update(settings);
       else await UserSetting.create({ ...settings, user_id: user.user_id });
+
     const plain = user.get({ plain: true });
     delete plain.password_hash;
     res.json(plain);

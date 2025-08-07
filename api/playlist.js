@@ -6,7 +6,9 @@ const { Playlist, PlaylistItem, PlaylistSave } = require("../database");
 
 router.get("/", async (_req, res) => {
   try {
-    const playlists = await Playlist.findAll();
+    const playlists = await Playlist.findAll({
+      include: [{ model: PlaylistItem, as: "items" }],
+    });
     res.status(200).send(playlists);
   } catch (error) {
     console.error("Error fetching playlists: ", error);
