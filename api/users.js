@@ -8,7 +8,6 @@ router.get("/", async (_req, res) => {
     const users = await User.findAll({
       attributes: { exclude: ["password_hash"] },
       include: [
-        { model: UserSetting, as: "settings" },
         {
           model: Playlist,
           as: "playlists",
