@@ -12,7 +12,8 @@ const cors = require("cors");
 const youtubeRoutes = require("./api/youtube");
 
 const PORT = process.env.PORT || 8080;
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
+// Forcing Vercel to use the Frontend url
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // body parser middleware
 app.use(express.json());
@@ -38,7 +39,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.sendStatus(500);
 });
-
 
 const runApp = async () => {
   try {
