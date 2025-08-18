@@ -87,7 +87,7 @@ router.post("/auth0", async (req, res) => {
     // SOLUTION 2: Add user id here, in addition to the other fields
     const token = jwt.sign(
       {
-        id: user.id,
+        id: user.user_id,
         username: user.username,
         auth0Id: user.auth0Id,
         email: user.email,
