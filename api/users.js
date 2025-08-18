@@ -108,7 +108,7 @@ router.patch("/:id", async (req, res, next) => {
 router.get("/profile/:userId", authenticateJWT, async (req, res) => {
   console.log("req.user:", req.user);
 
-  const { userId } = req.params;
+  // const { userId } = req.params;
   try {
     const user = await User.findByPk(req.user.id, {
       attributes: { exclude: ["password_hash"] },
