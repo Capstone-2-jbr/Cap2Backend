@@ -1,13 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
+const {authenticateJWT, requireAuth} = require("../auth");
+
 const youtubeRouter = require("./youtube");  // <-- Import youtube router
 const playlistRouter = require("./playlists");
 const userRouter = require("./users");
-const { authenticateJWT } = require("../auth");
+const cartRouter = require("./cart");
+const listingsRouter = require("./listings");
+const listingImage = require("./listingMedia");
 
 router.use("/video-details", youtubeRouter);
-router.use("/playlists", playlistRouter);
+router.use("/playlist", playlistRouter);
 router.use("/users", authenticateJWT, userRouter);
+router.use("/listings", listingsRouter);
+router.use("/listingMedia", listingImage);
+router.use("/cart",authenticateJWT, requireAuth, cartRouter);
 
 module.exports = router;
