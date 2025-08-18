@@ -9,14 +9,9 @@ const Listing = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    seller_id: { type: DataTypes.INTEGER, allowNull: false },
+    seller_id: { type: DataTypes.INTEGER, allowNull: true },
     title: { type: DataTypes.STRING(200), allowNull: false },
     description: { type: DataTypes.TEXT },
-    product_kind: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "physical",
-    },
     price_cents: { type: DataTypes.INTEGER, allowNull: false },
     currency: {
       type: DataTypes.STRING(3),
@@ -27,6 +22,10 @@ const Listing = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
+    },
+    artist:{
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     updated_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },

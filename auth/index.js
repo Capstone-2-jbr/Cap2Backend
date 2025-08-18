@@ -85,7 +85,7 @@ router.post("/auth0", async (req, res) => {
     // Generate JWT token with auth0Id included
     const token = jwt.sign(
       {
-        id: user.id,
+        id: user.user_id,
         username: user.username,
         auth0Id: user.auth0Id,
         email: user.email,
