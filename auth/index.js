@@ -8,6 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 // Middleware to authenticate JWT tokens
 const authenticateJWT = (req, res, next) => {
+  console.log (req.cookies);
   const token = req.cookies.token;
 
   if (!token) {
@@ -83,6 +84,7 @@ router.post("/auth0", async (req, res) => {
     }
 
     // Generate JWT token with auth0Id included
+    // SOLUTION 2: Add user id here, in addition to the other fields
     const token = jwt.sign(
       {
         id: user.user_id,
@@ -194,6 +196,8 @@ router.post("/login", async (req, res) => {
       return res.status(401).send({ error: "Invalid credentials" });
     }
 
+    console.log(user)
+
     // Generate JWT token
     const token = jwt.sign(
       {
@@ -215,7 +219,7 @@ router.post("/login", async (req, res) => {
 
     res.send({
       message: "Login successful",
-      user: { id: user.id, username: user.username },
+      user: { id: user.user_id, username: user.username },
     });
   } catch (error) {
     console.error("Login error:", error);
