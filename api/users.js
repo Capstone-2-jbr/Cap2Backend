@@ -103,12 +103,8 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-// --- NEW ---
 // GET logged-in user profile
-router.get("/profile/:userId", authenticateJWT, async (req, res) => {
-  console.log("req.user:", req.user);
-
-  // const { userId } = req.params;
+router.get("/profile/:id", authenticateJWT, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
       attributes: { exclude: ["password_hash"] },
@@ -137,7 +133,7 @@ router.get("/profile/:userId", authenticateJWT, async (req, res) => {
 });
 
 // UPDATE logged-in user profile
-router.put("/profile", authenticateJWT, async (req, res) => {
+router.patch("/profile", authenticateJWT, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
       include: [{ model: UserSetting, as: "settings" }],
@@ -147,7 +143,7 @@ router.put("/profile", authenticateJWT, async (req, res) => {
     const { settings, password, ...rest } = req.body;
     await user.update({
       ...rest,
-      ...(password && { password_hash: bcrypt.hashSync(password, 10) }),
+      ...(password && { password_hash: await bcrypt.hash(password, 10) }),
     });
 
     if (settings) {
