@@ -17,7 +17,7 @@ router.get("/", requireAuth, async (req, res) => {
               model: Listing,
               include: [{ model: ListingMedia, as: "media" }]
             }
-          ]
+          ],
         }
       ]
     });
@@ -107,6 +107,24 @@ router.delete("/item/:id", requireAuth, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to remove cart item" });
+  }
+});
+
+router.delete("/clear", requireAuth, async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ where: { user_id: req.user.id } });
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+
+    await CartItem.destroy({ where: { cart_id: cart.cart_id } });
+
+    res.json({ message: "Cart cleared" });
+  } catch (err) {
+    console.log("DEBUG clear cart -> user_id:", req.user.id);
+    console.log("DEBUG found cart:", cart ? cart.toJSON() : null);
+    console.error(err);
+    res.status(500).json({ error: "Failed to clear cart" });
   }
 });
 
