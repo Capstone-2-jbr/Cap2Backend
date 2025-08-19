@@ -11,7 +11,7 @@ const listingsRouter = require("./listings");
 const listingImage = require("./listingMedia");
 
 router.use("/video-details", youtubeRouter);
-router.use("/playlist", playlistRouter);
+router.use("/playlists", playlistRouter);
 router.use("/users", authenticateJWT, userRouter);
 router.use("/listings", listingsRouter);
 router.use("/listingMedia", listingImage);
