@@ -106,7 +106,7 @@ router.post("/auth0", async (req, res) => {
     res.send({
       message: "Auth0 authentication successful",
       user: {
-        id: user.id,
+        id: user.user_id,
         username: user.username,
         auth0Id: user.auth0Id,
         email: user.email,
@@ -148,7 +148,7 @@ router.post("/signup", async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       {
-        id: user.id,
+        id: user.user_id,
         username: user.username,
         auth0Id: user.auth0Id,
         email: user.email,
@@ -166,7 +166,7 @@ router.post("/signup", async (req, res) => {
 
     res.send({
       message: "User created successfully",
-      user: { id: user.id, username: user.username },
+      user: { id: user.user_id, username: user.username },
     });
   } catch (error) {
     console.error("Signup error:", error);
