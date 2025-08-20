@@ -5,10 +5,11 @@ const { User } = require("../database");
 const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const SAME_SITE = process.env.SAME_SITE || "none";
 
 // Middleware to authenticate JWT tokens
 const authenticateJWT = (req, res, next) => {
-  console.log (req.cookies);
+  console.log(req.cookies);
   const token = req.cookies.token;
 
   if (!token) {
@@ -99,7 +100,7 @@ router.post("/auth0", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: SAME_SITE,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });
 
@@ -160,7 +161,7 @@ router.post("/signup", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: SAME_SITE,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });
 
@@ -196,7 +197,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).send({ error: "Invalid credentials" });
     }
 
-    console.log(user)
+    console.log(user);
 
     // Generate JWT token
     const token = jwt.sign(
@@ -213,7 +214,7 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: SAME_SITE,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });
 
@@ -234,19 +235,47 @@ router.post("/logout", (req, res) => {
 });
 
 // Get current user route (protected)
-router.get("/me", (req, res) => {
-  const token = req.cookies.token;
-
+router.get("/me", async (req, res) => {
+  const token = req.cookies?.token;
   if (!token) {
-    return res.send({});
+    return res.status(200).json({ user: null });
   }
+  try {
+    const payload = jwt.verify(token, JWT_SECRET);
 
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).send({ error: "Invalid or expired token" });
+    const userId = payload.sub ?? payload.id;
+
+    const user = await User.findByPk(userId, {
+      attributes: ["user_id", "username", "email", "profile_picture"],
+    });
+
+    if (!user) {
+      res.clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: SAME_SITE,
+        path: "/",
+      });
+      return res.status(200).json({ user: null });
     }
-    res.send({ user: user });
-  });
+
+    return res.status(200).json({
+      user: {
+        id: user.user_id,
+        username: user.username,
+        email: user.email,
+        profile_picture: user.profile_picture,
+      },
+    });
+  } catch (err) {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: SAME_SITE,
+      path: "/",
+    });
+    return res.status(200).json({ user: null });
+  }
 });
 
-module.exports = { router, authenticateJWT, requireAuth, requireAdmin};
+module.exports = { router, authenticateJWT, requireAuth, requireAdmin };
