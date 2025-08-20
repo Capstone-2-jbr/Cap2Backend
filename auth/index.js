@@ -5,7 +5,7 @@ const { User } = require("../database");
 const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
-const SAME_SITE = process.env.SAME_SITE || "none";
+const SAME_SITE = process.env.SAME_SITE || "none"; //Vercell needs no env
 
 // Middleware to authenticate JWT tokens
 const authenticateJWT = (req, res, next) => {
