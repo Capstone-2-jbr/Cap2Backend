@@ -132,6 +132,24 @@ router.get("/profile/:id", authenticateJWT, async (req, res) => {
   }
 });
 
+router.put("/profile", authenticateJWT, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    // Update allowed fields
+    const { username, email } = req.body;
+    if (username) user.username = username;
+    if (email) user.email = email;
+
+    await user.save();
+    res.json({ message: "Profile updated", user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // UPDATE logged-in user profile
 router.patch("/profile", authenticateJWT, async (req, res) => {
   try {
